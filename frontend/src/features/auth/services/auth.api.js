@@ -1,11 +1,12 @@
 import axios from "axios"
+const BASE_URL = "https://interviewiq-huyd.onrender.com"
 
 export async function register({ username, email, password }) {
 
     try {
 
         const response = await axios.post(
-            "http://localhost:3000/api/auth/register",
+            `${BASE_URL}/api/auth/register`,
             {
                 username, email, password
             }, {
@@ -23,7 +24,7 @@ export async function register({ username, email, password }) {
 export async function login({ email, password }) {
     try {
         const response = await axios.post(
-            "http://localhost:3000/api/auth/login",
+            `${BASE_URL}/api/auth/login`,
             {
                 email,
                 password
@@ -37,7 +38,7 @@ export async function login({ email, password }) {
 
     } catch (err) {
         console.log(err.response?.data);
-        throw err; // ⭐ important
+        throw err; 
     }
 }
 
@@ -45,7 +46,7 @@ export async function login({ email, password }) {
 export async function logout() {
     try {
         const response = await axios.post(
-            "http://localhost:3000/api/auth/logout",
+           `${BASE_URL}/api/auth/logout`,
             {},
             {
                 withCredentials: true
@@ -64,7 +65,7 @@ export async function logout() {
 export async function getMe() {
     try {
         const response = await axios.get(
-            "http://localhost:3000/api/auth/get-me",
+            `${BASE_URL}/api/auth/get-me`,
             {
                 withCredentials: true
             }
