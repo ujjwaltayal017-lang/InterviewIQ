@@ -8,7 +8,7 @@ const interviewRouter = require("./routes/interview.routes")
 const app = express();
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://interviewiq-frontend-9omn.onrender.com",
     credentials: true
 }))
 
