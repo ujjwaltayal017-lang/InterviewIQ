@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import {Navigate, Route, Routes } from 'react-router-dom'
 import Register from "../src/features/auth/pages/Register"
 import Login from "../src/features/auth/pages/Login"
 import Protected from "../src/features/auth/components/Protected"
