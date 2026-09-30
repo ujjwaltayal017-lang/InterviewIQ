@@ -387,12 +387,25 @@ ${jobDescription || "Not provided"}
 async function generatePdfFromHtml(htmlContent) {
     const browser = await puppeteer.launch({
         headless: true,
-        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
     });
 
     try {
         const page = await browser.newPage();
-        await page.setContent(htmlContent, { waitUntil: "networkidle0" })
+        page.setDefaultTimeout(60000);
+
+        // External resources (fonts, CDN, images) block mat karo, taaki page kabhi atke nahi
+        await page.setRequestInterception(true);
+        page.on("request", (req) => {
+            const url = req.url();
+            if (url.startsWith("data:") || url.startsWith("about:")) {
+                req.continue();
+            } else {
+                req.abort();
+            }
+        });
+
+        await page.setContent(htmlContent, { waitUntil: "domcontentloaded" });
 
         const pdfBuffer = await page.pdf({
             format: "A4",
@@ -708,6 +721,8 @@ Before returning the JSON:
 - Ensure no unsupported information has been invented.
 - Ensure the resume is tailored to the provided Job Description.
 - Ensure the writing sounds natural and human-written.
+
+- Use only inline CSS inside a <style> tag. Do NOT use external fonts, CDN links, or images. Use system fonts like Arial or Georgia.
     `
 
 
