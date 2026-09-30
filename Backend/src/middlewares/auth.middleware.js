@@ -3,7 +3,7 @@ const tokenBlackListModel = require("../models/blacklist.model");
 
 async function authUser(req, res, next){
 
-    const token = req.cookies.token
+    const token = req.cookies.token || req.headers.authorization?.split(" ")[1]
 
     if(!token){
         return res.status(401).json({
@@ -33,7 +33,6 @@ async function authUser(req, res, next){
             message: "Invalid token."
         })
     }
-    
 }
 
 module.exports = {authUser}
