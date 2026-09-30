@@ -24,7 +24,6 @@ export default function Login() {
 
       try {
          await handleLogin({ email, password });
-         navigate("/");
       } catch (err) {
          setError(
             err.response?.data?.message || "Invalid email or password"
