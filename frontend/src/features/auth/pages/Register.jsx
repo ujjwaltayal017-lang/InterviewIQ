@@ -18,7 +18,6 @@ export default function Register() {
 
     try {
       await handleRegister({ username, email, password: pass })
-      navigate("/")
     } catch (err) {
       setError(
         err.response?.data?.message || "Something went wrong. Please try again."
