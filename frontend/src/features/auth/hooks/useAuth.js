@@ -47,7 +47,7 @@ export const useAuth = () => {
         await logout();
 
         setUser(null);
-        navigate("/login");
+        navigate("/");
     } catch (err) {
         console.log("Logout failed:", err);
     } finally {
