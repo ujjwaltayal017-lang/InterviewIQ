@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../auth.context";
 import { login, logout, register } from "../services/auth.api";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
 
