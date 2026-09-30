@@ -23,9 +23,15 @@ export const useInterview = () => {
             setReport(response.interviewReport)
             return response.interviewReport
         } catch (error) {
-            console.log(error)
-            return null
-        } finally {
+    console.log("========== GENERATE REPORT ERROR ==========")
+    console.log("Error:", error)
+    console.log("Message:", error.message)
+    console.log("Status:", error.response?.status)
+    console.log("Response:", error.response?.data)
+    console.log("===========================================")
+
+    return null
+} finally {
             setLoading(false)
         }
     }
