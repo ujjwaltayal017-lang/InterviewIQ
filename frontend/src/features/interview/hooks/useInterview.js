@@ -23,12 +23,6 @@ export const useInterview = () => {
             setReport(response.interviewReport)
             return response.interviewReport
         } catch (error) {
-    console.log("========== GENERATE REPORT ERROR ==========")
-    console.log("Error:", error)
-    console.log("Message:", error.message)
-    console.log("Status:", error.response?.status)
-    console.log("Response:", error.response?.data)
-    console.log("===========================================")
 
     return null
 } finally {
@@ -64,24 +58,48 @@ export const useInterview = () => {
         }
     }
 
+    // const getResumePdf = async (interviewReportId) => {
+    //     setLoading(true)
+    //     let response = null
+    //     try {
+    //         response = await generateResumePdf({ interviewReportId })
+    //         const url = window.URL.createObjectURL(new Blob([ response ], { type: "application/pdf" }))
+    //         const link = document.createElement("a")
+    //         link.href = url
+    //         link.setAttribute("download", `resume_${interviewReportId}.pdf`)
+    //         document.body.appendChild(link)
+    //         link.click()
+    //     }
+    //     catch (error) {
+    //         console.log(error)
+    //     } finally {
+    //         setLoading(false)
+    //     }
+    // }
     const getResumePdf = async (interviewReportId) => {
-        setLoading(true)
-        let response = null
+    setLoading(true)
+    try {
+        const response = await generateResumePdf({ interviewReportId })
+        const url = window.URL.createObjectURL(new Blob([response], { type: "application/pdf" }))
+        const link = document.createElement("a")
+        link.href = url
+        link.setAttribute("download", `resume_${interviewReportId}.pdf`)
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+        window.URL.revokeObjectURL(url)
+    } catch (error) {
+        let message = "Failed to generate resume PDF."
         try {
-            response = await generateResumePdf({ interviewReportId })
-            const url = window.URL.createObjectURL(new Blob([ response ], { type: "application/pdf" }))
-            const link = document.createElement("a")
-            link.href = url
-            link.setAttribute("download", `resume_${interviewReportId}.pdf`)
-            document.body.appendChild(link)
-            link.click()
-        }
-        catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
-        }
+            const text = await error.response?.data?.text()
+            message = JSON.parse(text).message || message
+        } catch (_) {}
+        console.log(error)
+        alert(message)
+    } finally {
+        setLoading(false)
     }
+}
 
     useEffect(() => {
         if (interviewId) {
