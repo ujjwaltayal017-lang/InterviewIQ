@@ -49,6 +49,7 @@ async function registerUserController(req, res) {
 
     res.status(201).json({
         message: "User registered successfully",
+        token,
         user: {
             id: user._id,
             username: user.username,
@@ -94,6 +95,7 @@ async function loginUserController(req, res) {
 
     res.status(200).json({
         message: "User login successfully",
+        token,
         user: {
             id: user._id,
             username: user.username,
@@ -103,7 +105,7 @@ async function loginUserController(req, res) {
 }
 
 async function logoutUserController(req, res) {
-    const token = req.cookies.token;
+    const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
 
     if (token) {
         await tokenBlackListModel.create({
@@ -111,12 +113,7 @@ async function logoutUserController(req, res) {
         })
     }
 
-    // res.clearCookie("token");
-    res.clearCookie("token", {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none"
-    });
+    res.clearCookie("token", { httpOnly: true, secure: true, sameSite: "none" });
 
     res.status(200).json({
         message: "User logged out successfully"
@@ -126,6 +123,10 @@ async function logoutUserController(req, res) {
 async function getMeController(req, res) {
 
     const user = await userModel.findById(req.user.id)
+
+    if (!user) {
+        return res.status(404).json({ message: "User not found" })
+    }
 
     res.status(200).json({
         message: "User details fetched successfully",
