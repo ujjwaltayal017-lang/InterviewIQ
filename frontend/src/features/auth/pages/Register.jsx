@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../hooks/useAuth';
@@ -9,13 +8,22 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [error, setError] = useState("");
 
   const { loading, handleRegister } = useAuth()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleRegister({ username, email, password: pass })
-    navigate("/")
+    setError("");
+
+    try {
+      await handleRegister({ username, email, password: pass })
+      navigate("/")
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Something went wrong. Please try again."
+      );
+    }
   }
 
   if (loading) {
@@ -36,7 +44,19 @@ export default function Register() {
       <div className="max-w-md w-full">
         <div
           className="p-6 rounded-lg bg-white border border-slate-300 shadow-xs md:p-6 dark:bg-neutral-800 dark:border-neutral-700">
-          <h1 className="text-slate-900 text-center text-2xl font-bold dark:text-slate-50">Create an account</h1>
+
+          {/* Logo */}
+          <div className="flex flex-col items-center">
+            <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-lg font-bold text-white">
+              IQ
+            </span>
+            <span className="mt-2 text-lg font-bold text-slate-900 dark:text-slate-50">InterviewIQ</span>
+          </div>
+
+          <h1 className="text-slate-900 text-center text-2xl font-bold mt-6 dark:text-slate-50">Create an account</h1>
+          <p className="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
+            Join InterviewIQ and ace your next interview.
+          </p>
 
           <form className="space-y-6 mt-10" onSubmit={handleSubmit}>
 
@@ -87,6 +107,12 @@ export default function Register() {
                 Terms and Conditions
               </a>
             </div>
+
+            {error && (
+              <p className="rounded-md bg-red-50 px-3 py-2 text-sm font-medium text-red-600">
+                {error}
+              </p>
+            )}
 
             <button type="submit"
               className="w-full py-2 px-3.5 text-sm rounded-md font-semibold cursor-pointer tracking-wide text-white border border-blue-600 bg-blue-600 hover:bg-blue-700 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">
