@@ -14,6 +14,7 @@ export const useAuth = () => {
         try {
             const data = await login({ email, password })
             setUser(data.user)
+            navigate("/interview");
         } catch (err) {
             console.log(err);
             throw err;
@@ -28,8 +29,8 @@ export const useAuth = () => {
 
         try {
             const data = await register({ username, email, password });
-
             setUser(data.user);
+            navigate("/interview");
         } catch (err) {
             console.log(err)
         } finally {
