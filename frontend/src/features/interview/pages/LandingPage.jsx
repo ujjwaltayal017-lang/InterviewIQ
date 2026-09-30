@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import {
   BrainCircuit,
@@ -10,8 +11,8 @@ import {
   Upload,
   ClipboardList,
   Sparkles,
-  Github,
-  Linkedin,
+//   Github,
+//   Linkedin,
 } from "lucide-react";
 
 function LandingPage() {
@@ -521,15 +522,15 @@ function LandingPage() {
 
           <div className="flex gap-4 text-slate-400">
 
-            <Github
+            {/* <Github
               size={20}
               className="cursor-pointer hover:text-white"
-            />
+            /> */}
 
-            <Linkedin
+            {/* <Linkedin
               size={20}
               className="cursor-pointer hover:text-white"
-            />
+            /> */}
 
           </div>
 
