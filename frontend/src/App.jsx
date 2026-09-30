@@ -9,7 +9,8 @@ import InterviewReport from "../src/features/interview/pages/InterviewReport"
 const App = () => {
   return (
     <Routes>
-      
+
+      <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
 
