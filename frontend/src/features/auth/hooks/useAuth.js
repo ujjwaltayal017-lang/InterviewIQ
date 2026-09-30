@@ -1,6 +1,6 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../auth.context";
-import { login, logout, register, getMe } from "../services/auth.api";
+import { login, logout, register } from "../services/auth.api";
 import { useNavigate } from "react-router";
 
 export const useAuth = () => {
