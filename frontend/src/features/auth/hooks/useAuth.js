@@ -33,6 +33,7 @@ export const useAuth = () => {
             navigate("/interview");
         } catch (err) {
             console.log(err)
+            throw err;
         } finally {
             setLoading(false);
         }
